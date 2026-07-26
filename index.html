@@ -204,7 +204,7 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#596474;border:3px solid transparent;background-clip:padding-box;border-radius:10px}::-webkit-scrollbar-track{background:transparent}
 
 @media(max-width:820px){
-  .desktop{padding:10px 10px 78px;grid-auto-columns:78px;grid-template-rows:88px}.desktop-icon{width:78px;height:88px}.desktop-icon .desktop-glyph{width:43px;height:43px;font-size:25px}
+  .desktop{padding:10px 10px 78px;grid-auto-flow:row;grid-template-columns:repeat(auto-fill,78px);grid-template-rows:none;grid-auto-rows:88px;grid-auto-columns:unset}.desktop-icon{width:78px;height:88px}.desktop-icon .desktop-glyph{width:43px;height:43px;font-size:25px}
   .panel{left:6px;bottom:6px;max-width:calc(100vw - 12px);height:53px;padding:4px}.panel-button{width:40px;height:40px}.panel-pinned .panel-button:nth-child(n+4){display:none}.task-list{max-width:140px}.system-tray .tray-button{display:none}.panel-clock{min-width:66px;font-size:10px}
   .launcher{left:6px;bottom:65px;width:calc(100vw - 12px);height:calc(100vh - 76px)}.launcher-cats{width:54px}.launcher-cat span{display:none}.launcher-cat{justify-content:center;font-size:18px}.launcher-search{width:58%}
   .window{left:5px!important;top:5px!important;width:calc(100vw - 10px)!important;height:calc(100vh - 68px)!important;min-width:0;min-height:0;resize:none}.window-title{padding-left:35px}.places{display:none}.filemanager-layout{height:calc(100% - 71px)}
@@ -222,6 +222,10 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
 
 <main class="desktop" id="desktop">
   <div class="desktop-icon" data-folder="Inicio"><div class="desktop-glyph">🏠</div><span>Carpeta personal</span></div>
+  <div class="desktop-icon" data-app="pixel"><div class="desktop-glyph">🎨</div><span>Pixel Art</span></div>
+  <div class="desktop-icon" data-app="photo"><div class="desktop-glyph">🖼️</div><span>Khaler Photo</span></div>
+  <div class="desktop-icon" data-app="modeler"><div class="desktop-glyph">🧊</div><span>Modelador 3D</span></div>
+  <div class="desktop-icon" data-app="gdscript"><div class="desktop-glyph">🤖</div><span>Godot Lab</span></div>
   <div class="desktop-icon" data-app="python"><div class="desktop-glyph">🐍</div><span>Python</span></div>
   <div class="desktop-icon" data-app="spectrum"><div class="desktop-glyph">🌈</div><span>Spectrum</span></div>
   <div class="desktop-icon" data-app="consoleapp"><div class="desktop-glyph">🖥️</div><span>Terminal</span></div>
@@ -244,13 +248,13 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
   <div class="window-body texteditor"><div class="menubar"><button class="menu-btn">Archivo</button><button class="menu-btn">Editar</button><button class="menu-btn">Selección</button><button class="menu-btn">Ver</button><button class="menu-btn">Herramientas</button></div><div class="texteditor-tools"><button id="texteditorNew" title="Nuevo">📄</button><button id="texteditorSave" title="Guardar">💾</button><button id="texteditorDate" title="Insertar fecha">🕒</button></div><div class="editor-wrap"><pre class="line-numbers" id="texteditorLines">1</pre><textarea id="texteditorEditor" spellcheck="false">KhalerOS
 
 Este escritorio está hecho con HTML, CSS y JavaScript.
-Incluye gestor de archivos, editor, terminal, calculadora, navegador, Python real y un ZX Spectrum con juegos de SoyKhaler.</textarea></div><div class="editor-status"><span id="texteditorSaved">Guardado</span><span id="texteditorPos">Línea 1, columna 1</span><span id="texteditorCount">0 caracteres</span></div></div>
+Incluye Pixel Art, edición fotográfica, modelado 3D, GDScript, Python real, navegador y un ZX Spectrum con juegos de SoyKhaler.</textarea></div><div class="editor-status"><span id="texteditorSaved">Guardado</span><span id="texteditorPos">Línea 1, columna 1</span><span id="texteditorCount">0 caracteres</span></div></div>
 </section>
 
 <!-- Browser -->
 <section class="window" id="win-browser" data-app="browser" style="width:850px;height:535px;left:170px;top:42px">
   <header class="titlebar"><div class="window-app-icon">🌐</div><div class="window-title">Navegador</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
-  <div class="window-body browser-shell"><div class="browser-tabs"><div class="browser-tab">🌐 <span id="browserTab">Página de inicio</span></div></div><div class="browser-toolbar"><button id="browserBack" title="Atrás">←</button><button id="browserForward" title="Adelante">→</button><button id="browserReload" title="Recargar">↻</button><button id="browserHome" title="Inicio">⌂</button><div class="urlbar"><span class="browser-security" id="browserSecurity">◆</span><input id="browserUrl" value="khaler://inicio" autocomplete="off" spellcheck="false" aria-label="Dirección o búsqueda"></div><button id="browserGo" title="Ir">↵</button><button class="external-button" id="browserExternal" title="Abrir esta dirección en el navegador del sistema">↗ <span>Abrir fuera</span></button></div><div class="browser-view"><div class="browser-page" id="browserPage"></div><iframe class="browser-frame" id="browserFrame" title="Página web" sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads" referrerpolicy="strict-origin-when-cross-origin" hidden></iframe><div class="browser-frame-help" id="browserFrameHelp" hidden><span>Algunas webs bloquean su visualización dentro de otras páginas. Si aparece en blanco o da error, ábrela directamente.</span><button id="browserFrameExternal">Abrir fuera ↗</button><button class="dismiss" id="browserFrameDismiss" title="Ocultar aviso">✕</button></div></div></div>
+  <div class="window-body browser-shell"><div class="browser-tabs"><div class="browser-tab">🌐 <span id="browserTab">Página de inicio</span></div></div><div class="browser-toolbar"><button id="browserBack" title="Atrás">←</button><button id="browserForward" title="Adelante">→</button><button id="browserReload" title="Recargar">↻</button><button id="browserHome" title="Inicio">⌂</button><div class="urlbar"><span class="browser-security" id="browserSecurity">◆</span><input id="browserUrl" value="khaler://inicio" autocomplete="off" spellcheck="false" aria-label="Dirección o búsqueda"></div><button id="browserPreview" title="Probar vista integrada">▣</button><button class="external-button" id="browserGo" title="Abrir en una pestaña real">↗ <span>Abrir web</span></button></div><div class="browser-view"><div class="browser-page" id="browserPage"></div><iframe class="browser-frame" id="browserFrame" title="Página web" sandbox="allow-forms allow-modals allow-scripts allow-downloads" referrerpolicy="strict-origin-when-cross-origin" hidden></iframe><div class="browser-frame-help" id="browserFrameHelp" hidden><span>La web de destino decide si admite iframes; KhalerOS no puede anular sus políticas X-Frame-Options o CSP.</span><button id="browserFrameExternal">Abrir web ↗</button><button class="dismiss" id="browserFrameDismiss" title="Ocultar aviso">✕</button></div></div></div>
 </section>
 
 <!-- Calculator -->
@@ -299,14 +303,38 @@ La primera carga necesita conexión a internet.</pre></div></div><div class="pyt
   <div class="window-body embedded-app"><iframe id="spectrumFrame" data-src="apps/spectrum/index.html" title="Emulador ZX Spectrum" allow="autoplay; fullscreen" loading="lazy"></iframe></div>
 </section>
 
+<!-- Pixel Art -->
+<section class="window" id="win-pixel" data-app="pixel" style="width:1080px;height:680px;left:70px;top:20px">
+  <header class="titlebar"><div class="window-app-icon">🎨</div><div class="window-title">Pixel Art — KhalerOS</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
+  <div class="window-body embedded-app"><iframe id="pixelFrame" data-src="apps/pixel/index.html" title="Editor de pixel art" loading="lazy"></iframe></div>
+</section>
+
+<!-- Photo editor -->
+<section class="window" id="win-photo" data-app="photo" style="width:1180px;height:720px;left:38px;top:12px">
+  <header class="titlebar"><div class="window-app-icon">🖼️</div><div class="window-title">Khaler Photo — Photopea</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
+  <div class="window-body embedded-app"><iframe id="photoFrame" data-src="apps/photo/index.html" title="Editor fotográfico" allow="clipboard-read; clipboard-write; fullscreen" loading="lazy"></iframe></div>
+</section>
+
+<!-- 3D modeler -->
+<section class="window" id="win-modeler" data-app="modeler" style="width:1140px;height:700px;left:52px;top:16px">
+  <header class="titlebar"><div class="window-app-icon">🧊</div><div class="window-title">Modelador 3D — Exportación GLB</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
+  <div class="window-body embedded-app"><iframe id="modelerFrame" data-src="apps/modeler/index.html" title="Modelador 3D" allow="fullscreen" loading="lazy"></iframe></div>
+</section>
+
+<!-- GDScript Lab -->
+<section class="window" id="win-gdscript" data-app="gdscript" style="width:1100px;height:680px;left:62px;top:20px">
+  <header class="titlebar"><div class="window-app-icon">🤖</div><div class="window-title">Godot Lab — GDScript</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
+  <div class="window-body embedded-app"><iframe id="gdscriptFrame" data-src="apps/gdscript/index.html" title="Laboratorio GDScript" allow="clipboard-write; fullscreen" loading="lazy"></iframe></div>
+</section>
+
 <!-- System Settings -->
 <section class="window" id="win-settings" data-app="settings" style="width:760px;height:510px;left:190px;top:55px">
   <header class="titlebar"><div class="window-app-icon">⚙️</div><div class="window-title">Preferencias del sistema</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
-  <div class="window-body settings"><aside class="settings-nav"><div class="settings-profile"><div class="launcher-avatar">S</div><div><strong>SoyKhaler</strong><small>Cuenta local</small></div></div><div class="settings-item active">🎨 <span>Apariencia</span></div><div class="settings-item">🖥️ <span>Pantalla</span></div><div class="settings-item">🪟 <span>Ventanas</span></div><div class="settings-item">🔊 <span>Audio</span></div><div class="settings-item">📶 <span>Red</span></div><div class="settings-item">ℹ️ <span>Acerca de</span></div></aside><div class="settings-content"><h1>Apariencia</h1><div class="setting-card"><h3>Fondo del escritorio</h3><p>Elige una variante con fondos abstractos diseñados para KhalerOS.</p><div class="wallpaper-options"><div class="wall-option selected" data-wall="blue"></div><div class="wall-option" data-wall="violet"></div><div class="wall-option" data-wall="green"></div><div class="wall-option" data-wall="sunset"></div></div></div><div class="setting-card"><h3>Color de énfasis</h3><p>Se aplica a selecciones, ventanas activas y controles.</p><div class="accent-options"><div class="accent selected" data-accent="#3daee9" data-rgb="61,174,233" style="background:#3daee9"></div><div class="accent" data-accent="#8b78e6" data-rgb="139,120,230" style="background:#8b78e6"></div><div class="accent" data-accent="#2ec7a6" data-rgb="46,199,166" style="background:#2ec7a6"></div><div class="accent" data-accent="#e9697b" data-rgb="233,105,123" style="background:#e9697b"></div><div class="accent" data-accent="#e7b64d" data-rgb="231,182,77" style="background:#e7b64d"></div></div></div><div class="setting-card switch-row"><div><h3>Desactivar desenfoque</h3><p>Usa paneles opacos para mejorar el rendimiento.</p></div><div class="switch" id="blurSwitch"><i></i></div></div><div class="setting-card"><h3>Acerca de KhalerOS</h3><p>KhalerOS · HTML, CSS, JavaScript y Python mediante Pyodide.</p></div></div></div>
+  <div class="window-body settings"><aside class="settings-nav"><div class="settings-profile"><div class="launcher-avatar">S</div><div><strong>SoyKhaler</strong><small>Cuenta local</small></div></div><div class="settings-item active">🎨 <span>Apariencia</span></div><div class="settings-item">🖥️ <span>Pantalla</span></div><div class="settings-item">🪟 <span>Ventanas</span></div><div class="settings-item">🔊 <span>Audio</span></div><div class="settings-item">📶 <span>Red</span></div><div class="settings-item">ℹ️ <span>Acerca de</span></div></aside><div class="settings-content"><h1>Apariencia</h1><div class="setting-card"><h3>Fondo del escritorio</h3><p>Elige una variante con fondos abstractos diseñados para KhalerOS.</p><div class="wallpaper-options"><div class="wall-option selected" data-wall="blue"></div><div class="wall-option" data-wall="violet"></div><div class="wall-option" data-wall="green"></div><div class="wall-option" data-wall="sunset"></div></div></div><div class="setting-card"><h3>Color de énfasis</h3><p>Se aplica a selecciones, ventanas activas y controles.</p><div class="accent-options"><div class="accent selected" data-accent="#3daee9" data-rgb="61,174,233" style="background:#3daee9"></div><div class="accent" data-accent="#8b78e6" data-rgb="139,120,230" style="background:#8b78e6"></div><div class="accent" data-accent="#2ec7a6" data-rgb="46,199,166" style="background:#2ec7a6"></div><div class="accent" data-accent="#e9697b" data-rgb="233,105,123" style="background:#e9697b"></div><div class="accent" data-accent="#e7b64d" data-rgb="231,182,77" style="background:#e7b64d"></div></div></div><div class="setting-card switch-row"><div><h3>Desactivar desenfoque</h3><p>Usa paneles opacos para mejorar el rendimiento.</p></div><div class="switch" id="blurSwitch"><i></i></div></div><div class="setting-card"><h3>Acerca de KhalerOS</h3><p>KhalerOS · Suite creativa web con Pixel Art, Photopea, Three.js, GDScript y Pyodide.</p></div></div></div>
 </section>
 
 <!-- Application launcher -->
-<section class="launcher" id="launcher" inert><div class="launcher-top"><div class="launcher-avatar">S</div><div class="launcher-user"><strong>SoyKhaler</strong><small>KhalerOS</small></div><label class="launcher-search">⌕ <input id="launcherSearch" placeholder="Buscar aplicaciones…" autocomplete="off"></label></div><div class="launcher-main"><aside class="launcher-cats"><div class="launcher-cat active" data-category="all">▦ <span>Todas</span></div><div class="launcher-cat" data-category="system">⚙️ <span>Sistema</span></div><div class="launcher-cat" data-category="development">⌨️ <span>Desarrollo</span></div><div class="launcher-cat" data-category="utilities">🧰 <span>Utilidades</span></div></aside><div class="launcher-apps"><div class="launcher-heading" id="launcherHeading">Aplicaciones</div><div id="launcherApps"></div></div></div><div class="launcher-footer"><button id="launcherHome">🏠 Carpeta personal</button><button id="powerButton">⏻ Reiniciar KhalerOS</button></div></section>
+<section class="launcher" id="launcher" inert><div class="launcher-top"><div class="launcher-avatar">S</div><div class="launcher-user"><strong>SoyKhaler</strong><small>KhalerOS</small></div><label class="launcher-search">⌕ <input id="launcherSearch" placeholder="Buscar aplicaciones…" autocomplete="off"></label></div><div class="launcher-main"><aside class="launcher-cats"><div class="launcher-cat active" data-category="all">▦ <span>Todas</span></div><div class="launcher-cat" data-category="creative">🎨 <span>Creatividad</span></div><div class="launcher-cat" data-category="system">⚙️ <span>Sistema</span></div><div class="launcher-cat" data-category="development">⌨️ <span>Desarrollo</span></div><div class="launcher-cat" data-category="utilities">🧰 <span>Utilidades</span></div></aside><div class="launcher-apps"><div class="launcher-heading" id="launcherHeading">Aplicaciones</div><div id="launcherApps"></div></div></div><div class="launcher-footer"><button id="launcherHome">🏠 Carpeta personal</button><button id="powerButton">⏻ Reiniciar KhalerOS</button></div></section>
 
 <!-- Panel -->
 <footer class="panel" id="panel"><button class="panel-button" id="launcherButton" title="Lanzador de aplicaciones"><span class="os-logo">◈</span></button><div class="panel-separator"></div><div class="panel-pinned"><button class="panel-button" data-panel-app="filemanager" title="Archivos"><span class="panel-icon">📁</span></button><button class="panel-button" data-panel-app="browser" title="Navegador"><span class="panel-icon">🌐</span></button><button class="panel-button" data-panel-app="consoleapp" title="Terminal"><span class="panel-icon mono">&gt;_</span></button><button class="panel-button" data-panel-app="python" title="Python"><span class="panel-icon">🐍</span></button></div><div class="panel-separator"></div><div class="task-list" id="taskList"></div><div class="panel-spacer"></div><div class="system-tray"><button class="tray-button" id="quickButton">⌃ 📶 🔊</button><div class="panel-clock" id="clock"></div><button class="show-desktop" id="showDesktop" title="Mostrar el escritorio"></button></div></footer>
@@ -326,6 +354,10 @@ const APPS={
   browser:{name:'Navegador',icon:'🌐',description:'Navegador web',category:'utilities'},
   consoleapp:{name:'Terminal',icon:'>_',description:'Emulador de terminal',category:'development'},
   python:{name:'Python Lab',icon:'🐍',description:'Python real con Pyodide',category:'development'},
+  pixel:{name:'Pixel Art',icon:'🎨',description:'Editor de sprites y píxeles',category:'creative'},
+  photo:{name:'Khaler Photo',icon:'🖼️',description:'Edición fotográfica con Photopea',category:'creative'},
+  modeler:{name:'Modelador 3D',icon:'🧊',description:'Crea modelos y exporta GLB',category:'creative'},
+  gdscript:{name:'Godot Lab',icon:'🤖',description:'Prueba GDScript en el navegador',category:'development'},
   spectrum:{name:'Spectrum',icon:'🌈',description:'ZX Spectrum con juegos de SoyKhaler',category:'utilities'},
   calculator:{name:'Calculadora',icon:'🧮',description:'Calculadora',category:'utilities'},
   settings:{name:'Preferencias del sistema',icon:'⚙️',description:'Configura el sistema',category:'system'}
@@ -352,7 +384,7 @@ function fitWindowToViewport(win){
   win.style.left=clamp(left,margin,Math.max(margin,innerWidth-win.offsetWidth-margin))+'px';
   win.style.top=clamp(top,margin,Math.max(margin,innerHeight-win.offsetHeight-81))+'px';
 }
-function openApp(id){const win=$('#win-'+id);if(!win)return;win.classList.add('open');win.style.display='flex';fitWindowToViewport(win);ensureTask(id);focusWindow(win);closePopups();if(id==='consoleapp')setTimeout(()=>$('#terminalInput').focus(),50);if(id==='texteditor')setTimeout(()=>$('#texteditorEditor').focus(),50);if(id==='spectrum'){const frame=$('#spectrumFrame');if(frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src}}
+function openApp(id){const win=$('#win-'+id);if(!win)return;win.classList.add('open');win.style.display='flex';fitWindowToViewport(win);ensureTask(id);focusWindow(win);closePopups();if(id==='consoleapp')setTimeout(()=>$('#terminalInput').focus(),50);if(id==='texteditor')setTimeout(()=>$('#texteditorEditor').focus(),50);const frame=$('iframe[data-src]',win);if(frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src}
 function closeApp(id){const w=$('#win-'+id);if(!w)return;const wasActive=activeApp===id;w.classList.remove('open','active');w.style.display='none';$('#task-'+id)?.remove();restoreApps=restoreApps.filter(app=>app!==id);if(wasActive)focusTopWindow();else updateTasks()}
 function minimizeApp(id,activateNext=true){const w=$('#win-'+id);if(!w)return;const wasActive=activeApp===id;w.style.display='none';w.classList.remove('active');if(wasActive&&activateNext)focusTopWindow();else if(wasActive)activeApp=null;updateTasks()}
 function toggleMax(win){if(win.dataset.max==='1'){let values=null;try{values=JSON.parse(win.dataset.restore||'null')}catch{}if(values)Object.assign(win.style,values);win.dataset.max='0';fitWindowToViewport(win)}else{win.dataset.restore=JSON.stringify({left:win.style.left,top:win.style.top,width:win.style.width,height:win.style.height});Object.assign(win.style,{left:'7px',top:'7px',width:'calc(100vw - 14px)',height:'calc(100vh - 88px)'});win.dataset.max='1'}focusWindow(win)}
@@ -365,13 +397,13 @@ function activateDesktopIcon(icon){if(icon.dataset.app)openApp(icon.dataset.app)
 $$('.desktop-icon').forEach(i=>{i.tabIndex=0;i.setAttribute('role','button');i.setAttribute('aria-label',$('span',i)?.textContent||'Acceso del escritorio');i.onclick=e=>{e.stopPropagation();$$('.desktop-icon').forEach(x=>x.classList.remove('selected'));i.classList.add('selected')};i.ondblclick=()=>activateDesktopIcon(i);i.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activateDesktopIcon(i)}}});$('#desktop').onclick=()=>$$('.desktop-icon').forEach(i=>i.classList.remove('selected'));
 
 // Launcher
-function renderLauncher(){const q=$('#launcherSearch').value.trim().toLocaleLowerCase('es'),list=Object.entries(APPS).filter(([,m])=>(launcherCategory==='all'||m.category===launcherCategory)&&(`${m.name} ${m.description}`.toLocaleLowerCase('es').includes(q)));$('#launcherHeading').textContent=launcherCategory==='all'?'Aplicaciones':({system:'Sistema',development:'Desarrollo',utilities:'Utilidades'}[launcherCategory]);const root=$('#launcherApps');root.innerHTML='';if(!list.length){root.innerHTML='<div class="launcher-empty">No se encontraron aplicaciones.</div>';return}list.forEach(([id,m])=>{const d=document.createElement('button');d.type='button';d.className='launcher-app';d.innerHTML=`<div class="app-glyph">${m.icon}</div><div><strong>${m.name}</strong><small>${m.description}</small></div>`;d.onclick=()=>openApp(id);root.appendChild(d)})}
+function renderLauncher(){const q=$('#launcherSearch').value.trim().toLocaleLowerCase('es'),list=Object.entries(APPS).filter(([,m])=>(launcherCategory==='all'||m.category===launcherCategory)&&(`${m.name} ${m.description}`.toLocaleLowerCase('es').includes(q)));$('#launcherHeading').textContent=launcherCategory==='all'?'Aplicaciones':({creative:'Creatividad',system:'Sistema',development:'Desarrollo',utilities:'Utilidades'}[launcherCategory]);const root=$('#launcherApps');root.innerHTML='';if(!list.length){root.innerHTML='<div class="launcher-empty">No se encontraron aplicaciones.</div>';return}list.forEach(([id,m])=>{const d=document.createElement('button');d.type='button';d.className='launcher-app';d.innerHTML=`<div class="app-glyph">${m.icon}</div><div><strong>${m.name}</strong><small>${m.description}</small></div>`;d.onclick=()=>openApp(id);root.appendChild(d)})}
 renderLauncher();$('#launcherButton').onclick=e=>{e.stopPropagation();const opening=!$('#launcher').classList.contains('open');closePopups('launcher');$('#launcher').classList.toggle('open',opening);$('#launcher').inert=!opening;$('#launcherButton').classList.toggle('active',opening);if(opening)setTimeout(()=>$('#launcherSearch').focus(),50)};$('#launcherSearch').oninput=renderLauncher;$$('.launcher-cat').forEach(c=>c.onclick=()=>{$$('.launcher-cat').forEach(x=>x.classList.remove('active'));c.classList.add('active');launcherCategory=c.dataset.category;renderLauncher()});$('#launcherHome').onclick=()=>{openApp('filemanager');renderFolder('Inicio')};$('#powerButton').onclick=()=>{closePopups();$('#boot').classList.remove('hidden');setTimeout(()=>{$('#boot').classList.add('hidden');notify('KhalerOS reiniciado','El escritorio vuelve a estar listo.','◆')},1450)};$$('[data-panel-app]').forEach(b=>b.onclick=()=>openApp(b.dataset.panelApp));
 
 // Archivos
 const FOLDERS={
- Inicio:[['📁','Escritorio','folder:Escritorio'],['📁','Documentos','folder:Documentos'],['⬇️','Descargas','folder:Descargas'],['🖼️','Imágenes','folder:Imágenes'],['🌈','Spectrum.desktop','app:spectrum'],['📝','notas.txt','app:texteditor'],['🐍','hola.py','app:python']],
- Escritorio:[['🌈','Spectrum.desktop','app:spectrum'],['🐍','Python.desktop','app:python'],['🖥️','Terminal.desktop','app:consoleapp'],['⚙️','Preferencias.desktop','app:settings']],
+ Inicio:[['📁','Escritorio','folder:Escritorio'],['📁','Documentos','folder:Documentos'],['⬇️','Descargas','folder:Descargas'],['🖼️','Imágenes','folder:Imágenes'],['🎨','Pixel Art.desktop','app:pixel'],['🖼️','Khaler Photo.desktop','app:photo'],['🧊','Modelador 3D.desktop','app:modeler'],['🤖','Godot Lab.desktop','app:gdscript'],['🌈','Spectrum.desktop','app:spectrum'],['📝','notas.txt','app:texteditor'],['🐍','hola.py','app:python']],
+ Escritorio:[['🎨','Pixel Art.desktop','app:pixel'],['🖼️','Khaler Photo.desktop','app:photo'],['🧊','Modelador 3D.desktop','app:modeler'],['🤖','Godot Lab.desktop','app:gdscript'],['🌈','Spectrum.desktop','app:spectrum'],['🐍','Python.desktop','app:python'],['🖥️','Terminal.desktop','app:consoleapp'],['⚙️','Preferencias.desktop','app:settings']],
  Documentos:[['📁','Parkour Labs','empty'],['📁','Portfolio','empty'],['📝','ideas.txt','app:texteditor'],['📄','README.md','app:texteditor']],
  Descargas:[['📦','proyecto.zip','file'],['🐍','script.py','app:python'],['📄','README.txt','app:texteditor']],
  Imágenes:[['🖼️','wallpaper.png','file'],['📁','Storyboards','empty'],['🖼️','captura.png','file']],
@@ -400,8 +432,8 @@ $('#texteditorDate').onclick=()=>{const p=texteditor.selectionStart;texteditor.s
 // Browser
 const browserPage=$('#browserPage'),browserFrame=$('#browserFrame'),browserUrl=$('#browserUrl');
 const PAGES={
- 'khaler://inicio':{title:'Página de inicio',html:`<div class="browser-home"><div class="browser-card"><div class="browser-logo">KOS</div><h1>Navegador de KhalerOS</h1><p>Escribe una dirección web o una búsqueda. Las páginas compatibles se abrirán aquí y siempre puedes usar <b>Abrir fuera</b>.</p><form class="browser-search" id="browserHomeSearch"><span>🔎</span><input placeholder="Buscar en la web o escribir una dirección" autocomplete="off"><button title="Buscar">→</button></form><div class="browser-links"><div class="browser-link" data-url="https://example.com">🌐<b>Web de prueba</b></div><div class="browser-link" data-url="https://es.wikipedia.org">📚<b>Wikipedia</b></div><div class="browser-link" data-page="khaler://ayuda">❔<b>Ayuda</b></div></div><div class="browser-note"><b>Nota:</b> servicios como Google, YouTube o itch.io pueden impedir que otra página los muestre dentro de un iframe. No es un fallo de KhalerOS: pulsa <b>↗ Abrir fuera</b> para usarlos normalmente.</div></div></div>`},
- 'khaler://ayuda':{title:'Ayuda del navegador',html:`<div class="browser-home"><div class="browser-card"><div class="browser-logo">?</div><h1>Cómo navegar</h1><p>Introduce <b>example.com</b>, una URL completa o cualquier búsqueda. Atrás, adelante y recargar conservan un historial propio dentro de KhalerOS.</p><div class="browser-links"><div class="browser-link" data-page="khaler://inicio">🏠<b>Inicio</b></div><div class="browser-link" data-url="https://example.com">🌐<b>Probar una web</b></div><div class="browser-link" data-app="consoleapp">🖥️<b>Terminal</b></div></div><div class="browser-note">Atajos: <b>Ctrl+L</b> selecciona la barra de direcciones, <b>Alt+←</b> vuelve atrás, <b>Alt+→</b> avanza y <b>Ctrl+R</b> recarga.</div></div></div>`}
+ 'khaler://inicio':{title:'Página de inicio',html:`<div class="browser-home"><div class="browser-card"><div class="browser-logo">KOS</div><h1>Navegador de KhalerOS</h1><p>Escribe una dirección o una búsqueda. Se abrirá en una pestaña real para que funcione también desde GitHub Pages.</p><form class="browser-search" id="browserHomeSearch"><span>🔎</span><input placeholder="Buscar en la web o escribir una dirección" autocomplete="off"><button title="Abrir">↗</button></form><div class="browser-links"><div class="browser-link" data-url="https://duckduckgo.com">🔎<b>DuckDuckGo</b></div><div class="browser-link" data-url="https://es.wikipedia.org">📚<b>Wikipedia</b></div><div class="browser-link" data-page="khaler://ayuda">❔<b>Ayuda</b></div></div><div class="browser-note"><b>Vista integrada:</b> el botón <b>▣</b> intenta mostrar una web dentro de KhalerOS. Muchas páginas lo bloquean por seguridad; el botón <b>↗ Abrir web</b> siempre usa una pestaña normal.</div></div></div>`},
+ 'khaler://ayuda':{title:'Ayuda del navegador',html:`<div class="browser-home"><div class="browser-card"><div class="browser-logo">?</div><h1>Navegar desde GitHub Pages</h1><p>Las webs normales se abren en una pestaña real. Así funcionan Google, YouTube, itch.io y cualquier sitio que bloquee iframes.</p><div class="browser-links"><div class="browser-link" data-page="khaler://inicio">🏠<b>Inicio</b></div><div class="browser-link" data-embed-url="https://example.com">▣<b>Probar vista integrada</b></div><div class="browser-link" data-app="consoleapp">🖥️<b>Terminal</b></div></div><div class="browser-note">Atajos: <b>Ctrl+L</b> selecciona la dirección, <b>Alt+←</b> vuelve, <b>Alt+→</b> avanza y <b>Ctrl+R</b> recarga o vuelve a abrir la web.</div></div></div>`}
 };
 let bh=[{url:'khaler://inicio',kind:'local'}],bi=0,currentBrowserEntry=bh[0],frameHelpTimer=null;
 function normalizeBrowserInput(raw){
@@ -422,12 +454,13 @@ function bindBrowserPageActions(){
   $$('[data-page]',browserPage).forEach(x=>x.onclick=()=>navigate(x.dataset.page));
   $$('[data-app]',browserPage).forEach(x=>x.onclick=()=>openApp(x.dataset.app));
   $$('[data-url]',browserPage).forEach(x=>x.onclick=()=>navigate(x.dataset.url));
+  $$('[data-embed-url]',browserPage).forEach(x=>x.onclick=()=>navigate(x.dataset.embedUrl,true,true));
+  $$('[data-browser-reopen]',browserPage).forEach(x=>x.onclick=()=>openBrowserEntryExternally(currentBrowserEntry));
   const form=$('#browserHomeSearch');if(form)form.onsubmit=e=>{e.preventDefault();navigate($('input',form).value)};
 }
 function updateBrowserControls(){
   $('#browserBack').disabled=bi<=0;$('#browserForward').disabled=bi>=bh.length-1;
-  const external=currentBrowserEntry?.kind==='external';$('#browserExternal').disabled=!external;
-  $('#browserSecurity').textContent=currentBrowserEntry?.kind==='local'?'◆':'◉';
+  $('#browserSecurity').textContent=currentBrowserEntry?.kind==='local'?'◆':currentBrowserEntry?.embedded?'◉':'↗';
   $('#browserSecurity').style.color=currentBrowserEntry?.kind==='local'?'#79d899':'#8fb7d5';
 }
 function showLocalBrowserPage(entry){
@@ -440,30 +473,37 @@ function showExternalBrowserPage(entry){
   browserFrame.src=entry.url;
   clearTimeout(frameHelpTimer);frameHelpTimer=setTimeout(()=>{$('#browserFrameHelp').hidden=false},1800);
 }
+function showExternalLaunchPage(entry){
+  clearTimeout(frameHelpTimer);browserFrame.hidden=true;browserFrame.removeAttribute('src');$('#browserFrameHelp').hidden=true;browserPage.hidden=false;$('#browserTab').textContent=entry.label||'Web abierta';
+  browserPage.innerHTML=`<div class="browser-home"><div class="browser-card"><div class="browser-logo">↗</div><h1>Web abierta en una pestaña real</h1><p><b>${escapeHtml(entry.label||entry.url)}</b> puede usarse sin las limitaciones de los iframes de GitHub Pages.</p><div class="browser-links"><div class="browser-link" data-browser-reopen>↗<b>Abrir de nuevo</b></div><div class="browser-link" data-embed-url="${escapeHtml(entry.url)}">▣<b>Probar vista integrada</b></div><div class="browser-link" data-page="khaler://inicio">🏠<b>Volver al inicio</b></div></div><div class="browser-note"><b>Dirección:</b> ${escapeHtml(entry.url)}<br><br>Si no apareció una pestaña, permite las ventanas emergentes para KhalerOS y pulsa <b>Abrir de nuevo</b>.</div></div></div>`;
+  bindBrowserPageActions();
+}
 function renderBrowserEntry(entry){
   currentBrowserEntry=entry;browserUrl.value=entry.url;
-  if(entry.kind==='external')showExternalBrowserPage(entry);else showLocalBrowserPage(entry);
+  if(entry.kind==='external'){if(entry.embedded)showExternalBrowserPage(entry);else showExternalLaunchPage(entry)}else showLocalBrowserPage(entry);
   updateBrowserControls();
 }
-function navigate(raw,push=true){
-  const entry=typeof raw==='object'?raw:normalizeBrowserInput(raw);
+function navigate(raw,push=true,embedded=false){
+  const entry=typeof raw==='object'?raw:{...normalizeBrowserInput(raw),embedded};
   if(push){bh=bh.slice(0,bi+1);bh.push(entry);bi=bh.length-1}
   renderBrowserEntry(entry);
+  if(push&&entry.kind==='external'&&!entry.embedded)openBrowserEntryExternally(entry);
 }
-function openCurrentBrowserExternally(){
-  if(currentBrowserEntry?.kind!=='external')return;
-  const link=document.createElement('a');link.href=currentBrowserEntry.url;link.target='_blank';link.rel='noopener noreferrer';document.body.appendChild(link);link.click();link.remove();
+function openBrowserEntryExternally(entry=currentBrowserEntry){
+  if(entry?.kind!=='external')return;
+  const link=document.createElement('a');link.href=entry.url;link.target='_blank';link.rel='noopener noreferrer';document.body.appendChild(link);link.click();link.remove();
 }
 renderBrowserEntry(bh[0]);
 browserUrl.onkeydown=e=>{if(e.key==='Enter')navigate(e.target.value);else if(e.key==='Escape')browserUrl.value=currentBrowserEntry.url};
 browserUrl.onfocus=()=>browserUrl.select();
 $('#browserGo').onclick=()=>navigate(browserUrl.value);
+$('#browserPreview').onclick=()=>navigate(browserUrl.value,true,true);
 $('#browserHome').onclick=()=>navigate('khaler://inicio');
 $('#browserBack').onclick=()=>{if(bi>0){bi--;renderBrowserEntry(bh[bi])}};
 $('#browserForward').onclick=()=>{if(bi<bh.length-1){bi++;renderBrowserEntry(bh[bi])}};
-$('#browserReload').onclick=()=>{if(currentBrowserEntry.kind==='external'){const src=browserFrame.src;browserFrame.src='about:blank';setTimeout(()=>browserFrame.src=src,0)}else renderBrowserEntry(currentBrowserEntry)};
-$('#browserExternal').onclick=openCurrentBrowserExternally;$('#browserFrameExternal').onclick=openCurrentBrowserExternally;$('#browserFrameDismiss').onclick=()=>{$('#browserFrameHelp').hidden=true;clearTimeout(frameHelpTimer)};
-browserFrame.onload=()=>{if(currentBrowserEntry?.kind==='external')$('#browserTab').textContent=currentBrowserEntry.label||'Página web'};
+$('#browserReload').onclick=()=>{if(currentBrowserEntry.kind==='external'&&currentBrowserEntry.embedded){const src=browserFrame.src;browserFrame.src='about:blank';setTimeout(()=>browserFrame.src=src,0)}else if(currentBrowserEntry.kind==='external')openBrowserEntryExternally(currentBrowserEntry);else renderBrowserEntry(currentBrowserEntry)};
+$('#browserFrameExternal').onclick=()=>openBrowserEntryExternally(currentBrowserEntry);$('#browserFrameDismiss').onclick=()=>{$('#browserFrameHelp').hidden=true;clearTimeout(frameHelpTimer)};
+browserFrame.onload=()=>{if(currentBrowserEntry?.kind==='external'&&currentBrowserEntry.embedded)$('#browserTab').textContent=currentBrowserEntry.label||'Página web'};
 window.addEventListener('keydown',e=>{
   const browserWindow=$('#win-browser'),browserActive=activeApp==='browser'&&browserWindow.classList.contains('open')&&browserWindow.style.display!=='none';if(!browserActive)return;
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l'){e.preventDefault();browserUrl.focus();browserUrl.select()}

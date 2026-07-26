@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111722">
+<title>Khaler Modeler</title>
+<link rel="stylesheet" href="modeler.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.min.js",
+    "three/addons/": "./vendor/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand" aria-label="Khaler Modeler">
+      <span class="brand-mark" aria-hidden="true">◇</span>
+      <span class="brand-copy"><strong>Khaler Modeler</strong><small>Modelado 3D básico</small></span>
+    </div>
+
+    <div class="tool-strip" aria-label="Herramientas de modelado">
+      <div class="tool-group add-tools" aria-label="Añadir primitivas">
+        <span class="group-label">Añadir</span>
+        <button class="tool-button" type="button" data-add="box" title="Añadir cubo">▣ <span>Cubo</span></button>
+        <button class="tool-button" type="button" data-add="sphere" title="Añadir esfera">● <span>Esfera</span></button>
+        <button class="tool-button" type="button" data-add="cylinder" title="Añadir cilindro">▥ <span>Cilindro</span></button>
+        <button class="tool-button" type="button" data-add="cone" title="Añadir cono">▲ <span>Cono</span></button>
+        <button class="tool-button" type="button" data-add="torus" title="Añadir toro">◉ <span>Toro</span></button>
+      </div>
+
+      <div class="tool-group transform-tools" aria-label="Transformar selección">
+        <button class="tool-button mode active" type="button" data-mode="translate" title="Mover (W)" aria-pressed="true">↔ <span>Mover</span></button>
+        <button class="tool-button mode" type="button" data-mode="rotate" title="Rotar (E)" aria-pressed="false">↻ <span>Rotar</span></button>
+        <button class="tool-button mode" type="button" data-mode="scale" title="Escalar (R)" aria-pressed="false">⤢ <span>Escalar</span></button>
+        <button class="tool-button compact" id="spaceButton" type="button" title="Alternar espacio global/local (Q)">Global</button>
+      </div>
+
+      <div class="tool-group object-tools" aria-label="Acciones de objeto">
+        <button class="tool-button" id="duplicateButton" type="button" title="Duplicar selección (Ctrl+D)" disabled>⧉ <span>Duplicar</span></button>
+        <button class="tool-button danger" id="deleteButton" type="button" title="Eliminar selección (Supr)" disabled>⌫ <span>Eliminar</span></button>
+      </div>
+    </div>
+
+    <div class="file-tools" aria-label="Archivos">
+      <button class="file-button secondary" id="newButton" type="button" title="Vaciar la escena">Nuevo</button>
+      <button class="file-button secondary" id="importButton" type="button" title="Importar un archivo GLB">Importar GLB</button>
+      <button class="file-button primary" id="exportButton" type="button" title="Descargar la escena como GLB">Exportar GLB</button>
+      <input id="fileInput" type="file" accept=".glb,model/gltf-binary" hidden>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <aside class="panel outliner-panel" aria-label="Objetos de la escena">
+      <div class="panel-heading"><span>ESCENA</span><strong id="objectCount">0 objetos</strong></div>
+      <div class="outliner" id="outliner"></div>
+      <div class="outliner-empty" id="outlinerEmpty">
+        <span aria-hidden="true">◇</span>
+        <p>Añade una primitiva o importa un GLB.</p>
+      </div>
+    </aside>
+
+    <main class="viewport" id="viewport">
+      <canvas id="sceneCanvas" tabindex="0" aria-label="Vista 3D. Arrastra para orbitar, usa la rueda para acercar y el botón derecho para desplazar."></canvas>
+      <div class="viewport-top">
+        <button class="view-chip" id="focusButton" type="button" title="Centrar la cámara en la selección (F)" disabled>◎ Enfocar</button>
+        <button class="view-chip" id="gridButton" type="button" aria-pressed="true" title="Mostrar u ocultar la cuadrícula"># Cuadrícula</button>
+      </div>
+      <div class="axis-legend" aria-hidden="true"><i class="axis-x"></i>X <i class="axis-y"></i>Y <i class="axis-z"></i>Z</div>
+      <div class="viewport-help">Arrastra: orbitar · Rueda: zoom · Botón derecho: desplazar</div>
+      <div class="drop-hint" id="dropHint"><strong>Suelta el GLB para importarlo</strong><span>El archivo se procesa solo en tu navegador.</span></div>
+      <div class="fatal-error" id="fatalError" hidden>
+        <span aria-hidden="true">!</span>
+        <div><strong>No se pudo iniciar la vista 3D</strong><p id="fatalMessage">Este navegador necesita WebGL 2.</p></div>
+      </div>
+    </main>
+
+    <aside class="panel inspector-panel" aria-label="Propiedades del objeto">
+      <div class="panel-heading"><span>PROPIEDADES</span><strong id="selectionKind">Sin selección</strong></div>
+      <div class="empty-inspector" id="emptyInspector">
+        <span aria-hidden="true">↖</span>
+        <p>Selecciona un objeto en la vista o en la lista.</p>
+      </div>
+
+      <div class="inspector-content" id="inspectorContent" hidden>
+        <section class="property-section identity-section">
+          <label class="field-label" for="nameInput">Nombre</label>
+          <input class="text-input" id="nameInput" type="text" maxlength="80" autocomplete="off">
+          <label class="check-row"><input id="visibleInput" type="checkbox" checked><span>Visible</span></label>
+        </section>
+
+        <section class="property-section">
+          <div class="section-title">Posición</div>
+          <div class="vector-row">
+            <label><span class="x-label">X</span><input type="number" inputmode="decimal" step="0.1" data-transform="position" data-axis="x"></label>
+            <label><span class="y-label">Y</span><input type="number" inputmode="decimal" step="0.1" data-transform="position" data-axis="y"></label>
+            <label><span class="z-label">Z</span><input type="number" inputmode="decimal" step="0.1" data-transform="position" data-axis="z"></label>
+          </div>
+        </section>
+
+        <section class="property-section">
+          <div class="section-title">Rotación <small>grados</small></div>
+          <div class="vector-row">
+            <label><span class="x-label">X</span><input type="number" inputmode="decimal" step="1" data-transform="rotation" data-axis="x"></label>
+            <label><span class="y-label">Y</span><input type="number" inputmode="decimal" step="1" data-transform="rotation" data-axis="y"></label>
+            <label><span class="z-label">Z</span><input type="number" inputmode="decimal" step="1" data-transform="rotation" data-axis="z"></label>
+          </div>
+        </section>
+
+        <section class="property-section">
+          <div class="section-title">Escala</div>
+          <div class="vector-row">
+            <label><span class="x-label">X</span><input type="number" inputmode="decimal" step="0.1" data-transform="scale" data-axis="x"></label>
+            <label><span class="y-label">Y</span><input type="number" inputmode="decimal" step="0.1" data-transform="scale" data-axis="y"></label>
+            <label><span class="z-label">Z</span><input type="number" inputmode="decimal" step="0.1" data-transform="scale" data-axis="z"></label>
+          </div>
+        </section>
+
+        <section class="property-section material-section" id="materialSection">
+          <div class="section-title">Material <small id="materialHint"></small></div>
+          <div class="color-row"><label for="colorInput">Color</label><input id="colorInput" type="color" value="#55b8e8"><output id="colorValue">#55B8E8</output></div>
+          <label class="range-row"><span>Rugosidad</span><input id="roughnessInput" type="range" min="0" max="1" step="0.01" value="0.68"><output id="roughnessValue">0.68</output></label>
+          <label class="range-row"><span>Metálico</span><input id="metalnessInput" type="range" min="0" max="1" step="0.01" value="0.08"><output id="metalnessValue">0.08</output></label>
+          <label class="check-row"><input id="wireframeInput" type="checkbox"><span>Alámbrico</span></label>
+        </section>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="statusbar">
+    <span class="status-message" id="statusMessage">Listo. Añade una primitiva para empezar.</span>
+    <span id="selectionStatus">Nada seleccionado</span>
+    <span class="renderer-status" id="rendererStatus">Three.js r184 · WebGL 2</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastIcon">✓</span><div><strong id="toastTitle">Listo</strong><p id="toastMessage"></p></div></div>
+
+<script type="module" src="modeler.js"></script>
+</body>
+</html>

@@ -11,3 +11,33 @@ JSSpeccy 3
 - El bundle incluye JSZip 3.7.1 y pako; consulta jsspeccy.js.LICENSE.txt en la carpeta anterior.
 
 Los juegos Parkour Labs 48K y La Deuda no forman parte de JSSpeccy. Son obras de SoyKhaler y se distribuyen gratuitamente en formato digital.
+
+Three.js
+- Proyecto: https://threejs.org/
+- Licencia: MIT
+- Versión incluida: r184 (0.184.0).
+- Archivos: apps/modeler/vendor/three/
+- Licencia completa: apps/modeler/vendor/three/LICENSE
+
+Servicios web externos (no incluidos en el repositorio)
+======================================================
+
+Photopea
+- Servicio: https://www.photopea.com/
+- Se muestra desde su sitio oficial mediante la API de integración en iframe.
+- KhalerOS no distribuye, modifica ni representa a Photopea.
+
+GDScript Online
+- Proyecto: https://github.com/gdscript-online/gdscript-online.github.io
+- Licencia: MIT
+- Se carga desde https://gdscript-online.github.io/ y ejecuta Godot Engine en el navegador.
+
+Godot Engine
+- Proyecto: https://godotengine.org/
+- Licencia: MIT
+- El motor forma parte de la aplicación web externa GDScript Online; no está incluido en este repositorio.
+
+JetBrains Mono
+- Proyecto: https://www.jetbrains.com/lp/mono/
+- Licencia: SIL Open Font License 1.1
+- La fuente forma parte de la aplicación web externa GDScript Online; no está incluida en este repositorio.

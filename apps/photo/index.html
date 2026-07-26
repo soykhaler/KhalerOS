@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17191f">
+<title>Khaler Photo</title>
+<style>
+:root{color-scheme:dark;--bg:#111319;--panel:#1c2028;--line:#333946;--text:#f3f5f8;--muted:#a8b0bd;--accent:#38aee8}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{font-family:Inter,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text)}button,a{font:inherit}.app{height:100%;display:flex;flex-direction:column}.bar{height:43px;flex:0 0 auto;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--line);background:var(--panel)}.brand{display:flex;align-items:center;gap:8px;margin-right:auto}.brand-icon{width:27px;height:27px;border-radius:7px;display:grid;place-items:center;background:linear-gradient(145deg,#45c3ee,#4e67da);font-weight:900}.brand strong{font-size:12px}.brand small{display:block;color:var(--muted);font-size:9px;margin-top:1px}.status{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:9px}.dot{width:7px;height:7px;border-radius:50%;background:#e2a742}.dot.ready{background:#54ce82}.dot.offline{background:#ef6676}.action{height:29px;border:1px solid var(--line);border-radius:6px;background:#272c36;color:var(--text);padding:0 9px;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer;font-size:10px}.action:hover{filter:brightness(1.13)}.frame-wrap{position:relative;flex:1;min-height:0}.frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#202124}.loading{position:absolute;z-index:2;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#263042,#111319 65%);transition:.2s}.loading.hidden{opacity:0;visibility:hidden;pointer-events:none}.card{text-align:center;max-width:390px;padding:28px}.logo{font-size:45px}.card h1{font-size:18px;margin:11px 0 7px}.card p{color:var(--muted);font-size:11px;line-height:1.55;margin:0}.spinner{width:25px;height:25px;margin:18px auto 0;border:2px solid #46505f;border-top-color:#eef3f8;border-radius:50%;animation:spin .75s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.offline-note{display:none;margin-top:17px;padding:10px;border:1px solid #733b45;border-radius:7px;background:#351d24;color:#ffc4cc;font-size:10px}.offline-note.show{display:block}@media(max-width:620px){.brand small,.status span,.action span{display:none}.bar{gap:5px;padding:0 6px}.action{padding:0 8px}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="bar">
+    <div class="brand"><div class="brand-icon">K</div><div><strong>Khaler Photo</strong><small>Edición avanzada mediante Photopea</small></div></div>
+    <div class="status"><i class="dot" id="dot"></i><span id="status">Conectando…</span></div>
+    <button class="action" id="reload" title="Recargar el editor">↻ <span>Recargar</span></button>
+    <a class="action" href="https://www.photopea.com/" target="_blank" rel="noopener noreferrer" title="Abrir Photopea en una pestaña">↗ <span>Abrir fuera</span></a>
+  </header>
+  <section class="frame-wrap">
+    <div class="loading" id="loading"><div class="card"><div class="logo">🖼️</div><h1>Preparando el editor fotográfico</h1><p>Permite abrir y guardar PSD, PNG, JPG, SVG y otros formatos. El editor necesita conexión a internet.</p><div class="spinner" id="spinner"></div><div class="offline-note" id="offline">No hay conexión. Usa el Editor Pixel, que funciona completamente sin conexión, o vuelve a intentarlo cuando recuperes internet.</div></div></div>
+    <iframe id="photopea" title="Editor fotográfico Photopea" src="https://www.photopea.com/#%7B%22environment%22%3A%7B%22lang%22%3A%22es%22%2C%22theme%22%3A2%7D%7D" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </section>
+</main>
+<script>
+const PHOTOPEA_URL='https://www.photopea.com/#%7B%22environment%22%3A%7B%22lang%22%3A%22es%22%2C%22theme%22%3A2%7D%7D';
+const frame=document.querySelector('#photopea'),loading=document.querySelector('#loading'),status=document.querySelector('#status'),dot=document.querySelector('#dot');
+function updateConnection(){const online=navigator.onLine;dot.className='dot '+(online?'':'offline');status.textContent=online?'Cargando editor…':'Sin conexión';document.querySelector('#offline').classList.toggle('show',!online);document.querySelector('#spinner').style.display=online?'block':'none'}
+updateConnection();addEventListener('online',()=>{updateConnection();frame.src=frame.src});addEventListener('offline',updateConnection);
+frame.addEventListener('load',()=>{if(!navigator.onLine)return;dot.className='dot ready';status.textContent='Editor listo';setTimeout(()=>loading.classList.add('hidden'),250)});
+document.querySelector('#reload').onclick=()=>{loading.classList.remove('hidden');updateConnection();frame.src=PHOTOPEA_URL};
+</script>
+</body>
+</html>
