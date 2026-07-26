@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11141b">
+<title>Spectrum — KhalerOS</title>
+<style>
+:root{--bg:#0b0e14;--panel:#151922;--panel2:#1c2230;--line:rgba(255,255,255,.12);--text:#f3f6fb;--muted:#a8b1bf;--accent:#43b9f2;--good:#62d68b;--danger:#ff6678}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden}body{font-family:Inter,"Segoe UI",system-ui,sans-serif;background:radial-gradient(circle at 80% 0,#192944 0,transparent 35%),var(--bg);color:var(--text)}button,input{font:inherit}.shell{height:100%;display:grid;grid-template-columns:276px 1fr;min-height:0}.library{min-height:0;padding:18px 15px;border-right:1px solid var(--line);background:rgba(17,20,28,.94);display:flex;flex-direction:column;gap:14px;overflow:auto}.brand{display:flex;align-items:center;gap:11px}.rainbow{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#ef4444 0 20%,#f59e0b 20% 40%,#f8e24e 40% 60%,#4ade80 60% 80%,#4ba3ff 80%);box-shadow:0 7px 22px rgba(0,0,0,.3)}.brand h1{font-size:18px}.brand p{font-size:10px;color:var(--muted);margin-top:3px}.section-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:4px}.game{width:100%;text-align:left;border:1px solid var(--line);border-radius:11px;background:linear-gradient(145deg,#202634,#151a24);padding:13px;cursor:pointer;color:var(--text);transition:.14s}.game:hover{transform:translateY(-1px);border-color:rgba(67,185,242,.58);box-shadow:0 9px 24px rgba(0,0,0,.24)}.game.active{border-color:var(--accent);box-shadow:0 0 0 2px rgba(67,185,242,.12)}.game strong{display:block;font-size:13px}.game span{display:block;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.45}.game .play{display:inline-block;margin-top:10px;padding:5px 9px;border-radius:6px;background:rgba(67,185,242,.16);color:#9bdfff;font-size:10px;font-weight:700}.actions{display:grid;gap:7px}.action{height:37px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);cursor:pointer;font-size:11px}.action:hover{filter:brightness(1.13)}.action.primary{background:var(--accent);border-color:transparent;color:#071018;font-weight:800}.legal{margin-top:auto;color:#7e8998;font-size:9px;line-height:1.55}.legal a{color:#88cfee}.stage{min-width:0;min-height:0;display:flex;flex-direction:column}.toolbar{height:48px;display:flex;align-items:center;gap:8px;padding:0 13px;border-bottom:1px solid var(--line);background:rgba(18,22,30,.92)}.toolbar strong{font-size:12px}.status{margin-left:auto;font-size:10px;color:var(--muted);display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%;background:#77808c}.dot.ready{background:var(--good);box-shadow:0 0 9px rgba(98,214,139,.6)}.dot.loading{background:#f4c85b;animation:pulse 1s infinite}.dot.error{background:var(--danger)}@keyframes pulse{50%{opacity:.3}}.emu-wrap{flex:1;min-height:0;display:grid;place-items:center;padding:16px;overflow:auto;background:linear-gradient(45deg,rgba(255,255,255,.018) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.018) 75%),linear-gradient(45deg,rgba(255,255,255,.018) 25%,transparent 25%,transparent 75%,rgba(255,255,255,.018) 75%);background-size:26px 26px;background-position:0 0,13px 13px}.emu-card{min-width:320px;min-height:260px;padding:13px;border:1px solid var(--line);border-radius:13px;background:#090b10;box-shadow:0 24px 65px rgba(0,0,0,.42)}#jsspeccy{display:grid;place-items:center;min-height:240px}.placeholder{width:min(560px,100%);text-align:center;color:var(--muted);padding:45px 22px}.placeholder .logo{font-size:50px;margin-bottom:12px}.placeholder h2{font-size:17px;color:var(--text);margin-bottom:8px}.placeholder p{font-size:11px;line-height:1.6}.placeholder button{margin-top:17px;height:38px;padding:0 15px;border:0;border-radius:8px;background:var(--accent);color:#071018;font-weight:800;cursor:pointer}.hint{height:30px;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);font-size:9px;color:var(--muted);background:#10141c}.hidden{display:none!important}
+@media(max-width:760px){.shell{grid-template-columns:1fr}.library{position:absolute;z-index:5;left:0;top:0;bottom:0;width:min(286px,88vw);transform:translateX(-100%);transition:.18s;box-shadow:20px 0 60px rgba(0,0,0,.48)}.library.open{transform:none}.mobile-menu{display:block!important}.emu-wrap{padding:5px}.emu-card{min-width:0;width:100%;padding:5px}.toolbar{padding:0 7px}}
+.mobile-menu{display:none;width:34px;height:34px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="library" id="library">
+    <div class="brand"><div class="rainbow"></div><div><h1>Spectrum</h1><p>Biblioteca de SoyKhaler</p></div></div>
+    <div class="section-title">Juegos instalados</div>
+    <button class="game" data-rom="roms/ParkourLabs_48K.tap" data-title="Parkour Labs 48K"><strong>Parkour Labs 48K</strong><span>Edición digital gratuita · ZX Spectrum 48K</span><i class="play">▶ Jugar</i></button>
+    <button class="game" data-rom="roms/LaDeuda.tap" data-title="La Deuda"><strong>La Deuda</strong><span>Edición digital gratuita · ZX Spectrum 48K</span><i class="play">▶ Jugar</i></button>
+    <div class="section-title">Cintas externas</div>
+    <div class="actions"><button class="action primary" id="openFile">📂 Abrir TAP / TZX / Z80 / SNA</button><button class="action" id="resetEmu">↻ Reiniciar emulador</button><button class="action" id="fullscreen">⛶ Pantalla completa</button></div>
+    <p class="legal">Parkour Labs 48K y La Deuda son obras de SoyKhaler y se distribuyen gratuitamente en formato digital. Emulación mediante <a href="https://github.com/gasman/jsspeccy3" target="_blank" rel="noopener">JSSpeccy 3</a>, GPL-3.0.</p>
+  </aside>
+  <main class="stage">
+    <div class="toolbar"><button class="mobile-menu" id="mobileMenu">☰</button><strong id="currentTitle">ZX Spectrum 48K</strong><div class="status"><span class="dot" id="dot"></span><span id="status">Emulador sin iniciar</span></div></div>
+    <div class="emu-wrap"><div class="emu-card"><div id="placeholder" class="placeholder"><div class="logo">🌈</div><h2>ZX Spectrum dentro de KhalerOS</h2><p>Selecciona uno de tus juegos o abre una cinta desde el ordenador. La primera carga descarga el motor del emulador.</p><button id="startEmu">Iniciar Spectrum</button></div><div id="jsspeccy" class="hidden"></div></div></div>
+    <div class="hint">Haz clic dentro de la pantalla para que el Spectrum reciba el teclado · La carga instantánea está activada</div>
+  </main>
+</div>
+<script>
+const CDN_SOURCES=[
+  'https://cdn.jsdelivr.net/npm/jsspeccy@3.2.0/jsspeccy.js',
+  'https://unpkg.com/jsspeccy@3.2.0/jsspeccy.js'
+];
+let emulator=null,loadingPromise=null,pendingRom=null;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function setStatus(text,state=''){ $('#status').textContent=text;$('#dot').className='dot '+state }
+function loadScript(url){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.onload=resolve;s.onerror=()=>reject(new Error('No se pudo descargar '+url));document.head.appendChild(s)})}
+async function loadEngine(){
+  if(window.JSSpeccy)return;
+  let lastError;
+  for(const url of CDN_SOURCES){try{await loadScript(url);if(window.JSSpeccy)return}catch(err){lastError=err}}
+  throw lastError||new Error('JSSpeccy no está disponible');
+}
+async function ensureEmulator(){
+  if(emulator)return emulator;
+  if(loadingPromise)return loadingPromise;
+  loadingPromise=(async()=>{
+    setStatus('Cargando JSSpeccy…','loading');
+    await loadEngine();
+    $('#placeholder').classList.add('hidden');$('#jsspeccy').classList.remove('hidden');
+    emulator=JSSpeccy($('#jsspeccy'),{machine:48,zoom:2,autoStart:true,autoLoadTapes:true,tapeAutoLoadMode:'default',tapeTrapsEnabled:true});
+    await new Promise(resolve=>emulator.onReady(resolve));
+    setStatus('Spectrum preparado','ready');
+    if(pendingRom){const rom=pendingRom;pendingRom=null;await playRom(rom.url,rom.title)}
+    return emulator;
+  })().catch(err=>{console.error(err);setStatus('Error al cargar el emulador','error');$('#placeholder').classList.remove('hidden');$('#placeholder h2').textContent='No se pudo cargar el emulador';$('#placeholder p').textContent='Comprueba la conexión a internet y vuelve a intentarlo.';loadingPromise=null;throw err});
+  return loadingPromise;
+}
+async function playRom(url,title){
+  $$('.game').forEach(g=>g.classList.toggle('active',g.dataset.rom===url));
+  $('#currentTitle').textContent=title;
+  if(!emulator){pendingRom={url,title};await ensureEmulator();return}
+  setStatus('Cargando '+title+'…','loading');
+  try{emulator.setMachine(48);emulator.openUrl(url);setStatus(title+' ejecutándose','ready');$('#library').classList.remove('open')}catch(err){console.error(err);setStatus('No se pudo abrir la cinta','error')}
+}
+$('#startEmu').onclick=()=>ensureEmulator();
+$$('.game').forEach(g=>g.onclick=()=>playRom(g.dataset.rom,g.dataset.title));
+$('#openFile').onclick=async()=>{const emu=await ensureEmulator();emu.openFileDialog();$('#library').classList.remove('open')};
+$('#fullscreen').onclick=async()=>{const emu=await ensureEmulator();emu.toggleFullscreen()};
+$('#resetEmu').onclick=()=>location.reload();
+$('#mobileMenu').onclick=()=>$('#library').classList.toggle('open');
+window.addEventListener('message',e=>{if(e.data?.type==='khaleros-spectrum-play')playRom(e.data.url,e.data.title||'Spectrum')});
+</script>
+</body>
+</html>

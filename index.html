@@ -133,6 +133,11 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
 .launcher-footer{height:54px;padding:0 14px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.08);border-radius:0 0 11px 11px}
 .launcher-footer button{height:34px;border:0;border-radius:7px;background:transparent;padding:0 11px;cursor:pointer;font-size:12px}.launcher-footer button:hover{background:rgba(255,255,255,.08)}
 
+
+/* Embedded KhalerOS applications */
+.embedded-app{height:100%;min-height:0;background:#0b0e14;overflow:hidden}
+.embedded-app iframe{display:block;width:100%;height:100%;border:0;background:#0b0e14}
+
 /* Application windows */
 .window{
   position:absolute;z-index:50;display:none;flex-direction:column;overflow:hidden;resize:both;
@@ -211,6 +216,7 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
 <main class="desktop" id="desktop">
   <div class="desktop-icon" data-folder="Inicio"><div class="desktop-glyph">🏠</div><span>Carpeta personal</span></div>
   <div class="desktop-icon" data-app="python"><div class="desktop-glyph">🐍</div><span>Python</span></div>
+  <div class="desktop-icon" data-app="spectrum"><div class="desktop-glyph">🌈</div><span>Spectrum</span></div>
   <div class="desktop-icon" data-app="consoleapp"><div class="desktop-glyph">🖥️</div><span>Terminal</span></div>
   <div class="desktop-icon" data-action="trash"><div class="desktop-glyph">🗑️</div><span>Papelera</span></div>
 </main>
@@ -231,7 +237,7 @@ body.no-blur{--surface-soft:#1c2028;--blur:0px}
   <div class="window-body texteditor"><div class="menubar"><button class="menu-btn">Archivo</button><button class="menu-btn">Editar</button><button class="menu-btn">Selección</button><button class="menu-btn">Ver</button><button class="menu-btn">Herramientas</button></div><div class="texteditor-tools"><button id="texteditorNew" title="Nuevo">📄</button><button id="texteditorSave" title="Guardar">💾</button><button id="texteditorDate" title="Insertar fecha">🕒</button></div><div class="editor-wrap"><pre class="line-numbers" id="texteditorLines">1</pre><textarea id="texteditorEditor" spellcheck="false">KhalerOS
 
 Este escritorio está hecho con HTML, CSS y JavaScript.
-Incluye gestor de archivos, editor, terminal, calculadora, navegador y Python real.</textarea></div><div class="editor-status"><span id="texteditorSaved">Guardado</span><span id="texteditorPos">Línea 1, columna 1</span><span id="texteditorCount">0 caracteres</span></div></div>
+Incluye gestor de archivos, editor, terminal, calculadora, navegador, Python real y un ZX Spectrum con juegos de SoyKhaler.</textarea></div><div class="editor-status"><span id="texteditorSaved">Guardado</span><span id="texteditorPos">Línea 1, columna 1</span><span id="texteditorCount">0 caracteres</span></div></div>
 </section>
 
 <!-- Browser -->
@@ -279,6 +285,13 @@ La primera carga necesita conexión a internet.</pre></div></div><div class="pyt
 </section>
 
 
+
+<!-- Spectrum -->
+<section class="window" id="win-spectrum" data-app="spectrum" style="width:1000px;height:650px;left:95px;top:24px">
+  <header class="titlebar"><div class="window-app-icon">🌈</div><div class="window-title">Spectrum — KhalerOS</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
+  <div class="window-body embedded-app"><iframe id="spectrumFrame" data-src="apps/spectrum/index.html" title="Emulador ZX Spectrum" allow="autoplay; fullscreen" loading="lazy"></iframe></div>
+</section>
+
 <!-- System Settings -->
 <section class="window" id="win-settings" data-app="settings" style="width:760px;height:510px;left:190px;top:55px">
   <header class="titlebar"><div class="window-app-icon">⚙️</div><div class="window-title">Preferencias del sistema</div><div class="window-controls"><button class="window-control" data-window="min">─</button><button class="window-control" data-window="max">□</button><button class="window-control close" data-window="close">✕</button></div></header>
@@ -306,6 +319,7 @@ const APPS={
   browser:{name:'Navegador',icon:'🌐',description:'Navegador web',category:'utilities'},
   consoleapp:{name:'Terminal',icon:'>_',description:'Emulador de terminal',category:'development'},
   python:{name:'Python Lab',icon:'🐍',description:'Python real con Pyodide',category:'development'},
+  spectrum:{name:'Spectrum',icon:'🌈',description:'ZX Spectrum con juegos de SoyKhaler',category:'utilities'},
   calculator:{name:'Calculadora',icon:'🧮',description:'Calculadora',category:'utilities'},
   settings:{name:'Preferencias del sistema',icon:'⚙️',description:'Configura el sistema',category:'system'}
 };
@@ -316,7 +330,7 @@ const store={get:key=>{try{return window['localStorage'].getItem(key)}catch{retu
 function notify(title,text,glyph='✨'){ $('#nTitle').textContent=title;$('#nText').textContent=text;$('#nGlyph').textContent=glyph;$('#notification').classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(()=>$('#notification').classList.remove('show'),3100) }
 function closePopups(except=''){if(except!=='launcher'){$('#launcher').classList.remove('open');$('#launcherButton').classList.remove('active')}if(except!=='quick')$('#quickPopup').classList.remove('open');if(except!=='calendar')$('#calendarPopup').classList.remove('open');$('#contextMenu').classList.remove('open')}
 function focusWindow(win){$$('.window').forEach(w=>w.classList.remove('active'));win.classList.add('active');win.style.zIndex=++z;activeApp=win.dataset.app;updateTasks()}
-function openApp(id){const win=$('#win-'+id);if(!win)return;win.classList.add('open');win.style.display='flex';ensureTask(id);focusWindow(win);closePopups();if(id==='consoleapp')setTimeout(()=>$('#terminalInput').focus(),50);if(id==='texteditor')setTimeout(()=>$('#texteditorEditor').focus(),50)}
+function openApp(id){const win=$('#win-'+id);if(!win)return;win.classList.add('open');win.style.display='flex';ensureTask(id);focusWindow(win);closePopups();if(id==='consoleapp')setTimeout(()=>$('#terminalInput').focus(),50);if(id==='texteditor')setTimeout(()=>$('#texteditorEditor').focus(),50);if(id==='spectrum'){const frame=$('#spectrumFrame');if(frame&&!frame.getAttribute('src'))frame.src=frame.dataset.src}}
 function closeApp(id){const w=$('#win-'+id);if(!w)return;w.classList.remove('open','active');w.style.display='none';$('#task-'+id)?.remove();if(activeApp===id)activeApp=null;updateTasks()}
 function minimizeApp(id){const w=$('#win-'+id);if(!w)return;w.style.display='none';w.classList.remove('active');if(activeApp===id)activeApp=null;updateTasks()}
 function toggleMax(win){if(win.dataset.max==='1'){Object.assign(win.style,JSON.parse(win.dataset.restore));win.dataset.max='0'}else{win.dataset.restore=JSON.stringify({left:win.style.left,top:win.style.top,width:win.style.width,height:win.style.height});Object.assign(win.style,{left:'7px',top:'7px',width:'calc(100vw - 14px)',height:'calc(100vh - 88px)'});win.dataset.max='1'}focusWindow(win)}
@@ -333,8 +347,8 @@ renderLauncher();$('#launcherButton').onclick=e=>{e.stopPropagation();const open
 
 // Archivos
 const FOLDERS={
- Inicio:[['📁','Escritorio','folder:Escritorio'],['📁','Documentos','folder:Documentos'],['⬇️','Descargas','folder:Descargas'],['🖼️','Imágenes','folder:Imágenes'],['📝','notas.txt','app:texteditor'],['🐍','hola.py','app:python']],
- Escritorio:[['🐍','Python.desktop','app:python'],['🖥️','Terminal.desktop','app:consoleapp'],['⚙️','Preferencias.desktop','app:settings']],
+ Inicio:[['📁','Escritorio','folder:Escritorio'],['📁','Documentos','folder:Documentos'],['⬇️','Descargas','folder:Descargas'],['🖼️','Imágenes','folder:Imágenes'],['🌈','Spectrum.desktop','app:spectrum'],['📝','notas.txt','app:texteditor'],['🐍','hola.py','app:python']],
+ Escritorio:[['🌈','Spectrum.desktop','app:spectrum'],['🐍','Python.desktop','app:python'],['🖥️','Terminal.desktop','app:consoleapp'],['⚙️','Preferencias.desktop','app:settings']],
  Documentos:[['📁','Parkour Labs','empty'],['📁','Portfolio','empty'],['📝','ideas.txt','app:texteditor'],['📄','README.md','app:texteditor']],
  Descargas:[['📦','proyecto.zip','file'],['🐍','script.py','app:python'],['📄','README.txt','app:texteditor']],
  Imágenes:[['🖼️','wallpaper.png','file'],['📁','Storyboards','empty'],['🖼️','captura.png','file']],
@@ -452,6 +466,7 @@ clear                limpia la Terminal
 neofetch             información del sistema
 open APP             abre una aplicación
 python               abre Python Lab
+spectrum             abre el emulador Spectrum
 date                 fecha y hora
 echo TEXTO           imprime texto`);break;
     case'clear':case'cls':tout.innerHTML='';break;
@@ -469,9 +484,11 @@ echo TEXTO           imprime texto`);break;
                       Escritorio: KhalerOS Web
                       Terminal: KhalerOS Terminal
                       Python: Pyodide
+                      Emulación: ZX Spectrum 48K/128K
                       Resolución: ${innerWidth}x${innerHeight}`);break;
     case'open':{const key=Object.keys(APPS).find(k=>k===arg.toLowerCase()||APPS[k].name.toLowerCase().includes(arg.toLowerCase()));if(key){openApp(key);twrite(`Abriendo ${APPS[key].name}…`)}else twrite('<span class="term-red">Aplicación no encontrada.</span>');break}
     case'python':openApp('python');twrite('Abriendo Python Lab…');break;
+    case'spectrum':openApp('spectrum');twrite('Abriendo Spectrum…');break;
     case'sudo':twrite('<span class="term-purple">SoyKhaler está en el archivo sudoers. Aquí no hace falta root 😌</span>');break;
     default:twrite(`<span class="term-red">${escapeHtml(cmd)}: orden no encontrada</span>. Escribe <span class="term-blue">help</span>.`)
   }

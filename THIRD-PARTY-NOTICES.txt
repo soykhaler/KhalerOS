@@ -1,0 +1,10 @@
+Componentes de terceros
+======================
+
+JSSpeccy 3
+- Autor: Matt Westcott (Gasman)
+- Proyecto: https://github.com/gasman/jsspeccy3
+- Licencia: GNU General Public License v3.0
+- KhalerOS carga la versión 3.2.0 desde jsDelivr o UNPKG.
+
+Los juegos Parkour Labs 48K y La Deuda no forman parte de JSSpeccy. Son obras de SoyKhaler y se distribuyen gratuitamente en formato digital.
